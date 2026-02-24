@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/features/expenses/presentation/pages/settings_page.dart';
 import 'package:expenses_tracker/features/theme/presentation/widgets/theme_card.dart';
 import 'package:flutter/material.dart';
 
@@ -26,14 +27,18 @@ class MyDrawer extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height * 0.5),
               Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 18),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.teal,
-                    ),
-                    child: InkWell(
-                      onTap: () {},
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return SettingsPage();
+                      }));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 18),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.teal,
+                      ),
                       child: Text('S E T T I N G S'),
                     ),
                   ),

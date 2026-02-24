@@ -1,5 +1,6 @@
 // lib/features/expenses/presentation/pages/home_page.dart
 import 'package:expenses_tracker/features/expenses/presentation/controllers/expensses_controller.dart';
+import 'package:expenses_tracker/features/expenses/presentation/controllers/income_controller.dart';
 import 'package:expenses_tracker/features/expenses/presentation/pages/add_expense_page.dart';
 import 'package:expenses_tracker/features/expenses/presentation/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class HomePage extends ConsumerWidget {
           if (expensesList.isEmpty) {
             return const Center(child: Text('No expenses yet'));
           }
+          final income = ref.watch(incomeProvider);
 
           final total = controller.sumCosts(expensesList);
 
@@ -60,8 +62,13 @@ class HomePage extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    Text('Income:${income.toString()} ',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),),
                     Text(
-                      'expensses:$total',
+                      'Expensses:$total',
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -70,6 +77,24 @@ class HomePage extends ConsumerWidget {
                   ],
                 ),
               ),
+              
+   Container(
+    margin: EdgeInsets.symmetric(horizontal: 8),
+    width: double.infinity,
+    padding: EdgeInsets.all(15),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),
+      color: Colors.teal
+    ),
+    child: Center(
+      child: Text('Money left:${ref.watch(incomeProvider.notifier).calculateMoneyLeft(total)}',
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),),
+    ),
+   ),
+              
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
