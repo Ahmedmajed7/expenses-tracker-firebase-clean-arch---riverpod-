@@ -3,6 +3,7 @@ import 'package:expenses_tracker/features/expenses/presentation/controllers/expe
 import 'package:expenses_tracker/features/expenses/presentation/controllers/income_controller.dart';
 import 'package:expenses_tracker/features/expenses/presentation/pages/add_expense_page.dart';
 import 'package:expenses_tracker/features/expenses/presentation/widgets/my_drawer.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -68,7 +69,7 @@ class HomePage extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),),
                     Text(
-                      'Expensses:$total',
+                      'Expenses:$total',
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -77,23 +78,83 @@ class HomePage extends ConsumerWidget {
                   ],
                 ),
               ),
+          
               
-   Container(
-    margin: EdgeInsets.symmetric(horizontal: 8),
-    width: double.infinity,
-    padding: EdgeInsets.all(15),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      color: Colors.teal
-    ),
-    child: Center(
-      child: Text('Money left:${ref.watch(incomeProvider.notifier).calculateMoneyLeft(total)}',
+             Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              width: double.infinity,
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.teal
+              ),
+              child: Center(
+                child: Text('Money left:${ref.watch(incomeProvider.notifier).calculateMoneyLeft(total)}',
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),),
-    ),
-   ),
+              ),
+             ),
+          
+             Center(
+               child: SizedBox(
+                  height: MediaQuery.of(context).size.height*0.4,
+                  width: MediaQuery.of(context).size.width*0.7,
+                  child: PieChart(
+                    PieChartData(
+                      
+                      centerSpaceRadius: double.infinity,
+                      centerSpaceColor: Colors.transparent,
+                      
+                      sections: [
+                        PieChartSectionData(
+                         value: ref.watch(incomeProvider.notifier).calculateMoneyLeft(total)
+                        ,  color: Colors.green
+                        ),
+                        PieChartSectionData(
+                         value: total,
+                         color:  Colors.red
+                  
+                        ),
+                      ]
+                    )
+                  ),
+                ),
+             ),
+
+             Column(children: [
+            Row(
+              children: [
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                width: 12,
+                height: 12,
+                color: Colors.green,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text('Income'),
+            ],),
+            Row(
+              children: [
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                width: 12,
+                height: 12,
+                color: Colors.red,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text('Expenses'),
+            ],)
+             ],),
+             SizedBox(
+              height: 15,
+             ),
+              
               
               Expanded(
                 child: GridView.builder(
